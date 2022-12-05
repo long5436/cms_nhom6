@@ -32,31 +32,6 @@ function getCategories()
     return get_categories($args);
 }
 
-
-function getSubCategories($category_id)
-{
-    $taxonomy     = 'product_cat';
-    $orderby      = 'name';
-    $show_count   = 0;      // 1 for yes, 0 for no
-    $pad_counts   = 0;      // 1 for yes, 0 for no
-    $hierarchical = 1;      // 1 for yes, 0 for no  
-    $title        = '';
-    $empty        = 0;
-
-    $args = array(
-        'taxonomy'     => $taxonomy,
-        'child_of'     => 0,
-        'parent'       => $category_id,
-        'orderby'      => $orderby,
-        'show_count'   => $show_count,
-        'pad_counts'   => $pad_counts,
-        'hierarchical' => $hierarchical,
-        'title_li'     => $title,
-        'hide_empty'   => $empty
-    );
-
-    return get_categories($args);
-}
 ?>
 
 <?php
@@ -65,52 +40,22 @@ if (!function_exists('mytheme_logo')) {
     function mytheme_logo()
     { ?>
 <?php
-            printf(
-                //truyền các tham số lần lượt url, title, logo, description
-                '
+        printf(
+            //truyền các tham số lần lượt url, title, logo, description
+            '
                 <a class="navbar-brand" href="%s" title="%s">
                 <img src="%s" alt="">
                 </a>
              ',
-                get_bloginfo('url'),
-                get_bloginfo('sitename'),
-                esc_url(get_stylesheet_directory_uri()) . '/images/logo2.png',
-            ); ?>
+            get_bloginfo('url'),
+            get_bloginfo('sitename'),
+            esc_url(get_stylesheet_directory_uri()) . '/images/logo2.png',
+        ); ?>
 
 <?php }  ?>
 <?php } ?>
 
 <?php
-
-
-function getSalePercent($product_id)
-{
-    $product = wc_get_product($product_id);
-    $sale_percent = 0;
-    if ($product->is_type('simple') || $product->is_type('external')) {
-        $regular_price  = $product->get_regular_price();
-        $sale_price     = $product->get_sale_price();
-        $sale_percent = round(((floatval($regular_price) - floatval($sale_price)) / floatval($regular_price)) * 100);
-    }
-    return str_replace('{sale_percent}', $sale_percent, '-{sale_percent}%');
-}
-
-add_filter('woocommerce_sale_flash', 'my_woocommerce_sale_flash', 10, 3);
-function my_woocommerce_sale_flash($html, $post, $product_id)
-{
-    return '<span class="onsale">' . getSalePercent($product_id) . '</span>';
-}
-
-
-function getRandProducts($args)
-{
-    return $latestProduct = wc_get_products(array(
-        'post_type' => 'product',
-        'post_status' => 'publish',
-        'orderby' => 'rand', //lay ngau nhien
-        'posts_per_page' => $args
-    ));
-}
 
 
 
@@ -151,8 +96,8 @@ function getProductsByCategory($category_id, $args)
                 'terms'         => 'exclude-from-catalog', // Possibly 'exclude-from-search' too
                 'operator'      => 'NOT IN'
             )
-            ),
-           
+        ),
+
     ));
 }
 
@@ -177,8 +122,8 @@ function getProductsByCategoryRand($category_id, $args)
                 'terms'         => 'exclude-from-catalog', // Possibly 'exclude-from-search' too
                 'operator'      => 'NOT IN'
             )
-            ),
-           
+        ),
+
     ));
 }
 
@@ -294,4 +239,4 @@ function dk_create_order($address, $products, $note)
 
 
 //Hide admin bar for all users except administrators
-add_filter( 'show_admin_bar', '__return_false' );
+add_filter('show_admin_bar', '__return_false');

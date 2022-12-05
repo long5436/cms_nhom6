@@ -14,6 +14,6 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
-RewriteCond %{HTTP_HOST} ^nguyenvanlongwebit\.com$
-RewriteRule ^/?$ "https\:\/\/nguyenvanlongwebit\.com\/" [R=301,L]
+# RewriteCond %{HTTP_HOST} ^cms\.nguyenvanlongwebit\.local$
+# RewriteRule ^/?$ "https\:\/\/cms\.nguyenvanlongwebit\.local\/" [R=301,L]
 
